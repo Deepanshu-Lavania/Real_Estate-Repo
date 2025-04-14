@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import {Home , About} from '../Controllers/auth-controller.js'
+import {Home , About} from '../Controllers/user-controller.js'
 
 // Home page route.
 router.get("/", Home);
