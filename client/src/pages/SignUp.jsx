@@ -1,6 +1,5 @@
-import js from "@eslint/js";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 
 export default function SignUp() {
   const initialFormData = {
@@ -11,6 +10,7 @@ export default function SignUp() {
   const [formdata, setFormdata] = useState(initialFormData);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormdata((prev) => ({
@@ -39,9 +39,11 @@ export default function SignUp() {
         return;
       }
       console.log(data);
-      setFormdata(initialFormData); // optional reset
+      alert("User created Successfully")
+      // setFormdata(initialFormData); 
+      navigate('/signin')
     } catch (err) {
-      setError("Network error");
+      setError("Error in signup.jsx : ", err.message);
     } finally {
       setLoading(false);
     }
@@ -49,59 +51,48 @@ export default function SignUp() {
 
   return (
     <div className="p-2 max-w-md mx-auto">
-      {error ? (
-        <div className="h-screen flex justify-center items-center">
-          <p className="text-red-500 text-sm text-center">{error}</p>
-        </div>
-      ) : (
-        <>
-          <h1 className="text-2xl text-center font-semibold my-7">SignUp</h1>
-          <form
-            action=""
-            onSubmit={handleSubmit}
-            className="flex flex-col gap-4"
-          >
-            <input
-              type="text"
-              placeholder="username"
-              id="username"
-              className="border p-2 rounded-lg"
-              value={formdata.username}
-              onChange={handleChange}
-            />
-            <input
-              type="email"
-              name=""
-              placeholder="email"
-              id="email"
-              className="border p-2 rounded-lg"
-              value={formdata.email}
-              onChange={handleChange}
-            />
-            <input
-              type="password"
-              name=""
-              placeholder="password"
-              id="password"
-              className="border p-2 rounded-lg"
-              value={formdata.password}
-              onChange={handleChange}
-            />
-            <button
-              disabled={loading}
-              className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-90 disabled:opacity-80"
-            >
-              {loading ? "Loading..." : "Sign Up"}
-            </button>
-          </form>
-          <div className="flex gap-2 mt-5">
-            <p>Have an account?</p>
-            <Link to="/signin">
-              <span className="text-blue-700">Sign in</span>
-            </Link>
-          </div>
-        </>
-      )}
+      {error && <p className="text-red-500 mt-5 text-sm text-center">{error}</p>}
+      <h1 className="text-2xl text-center font-semibold my-7">SignUp</h1>
+      <form action="" onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <input
+          type="text"
+          placeholder="username"
+          id="username"
+          className="border p-2 rounded-lg"
+          value={formdata.username}
+          onChange={handleChange}
+        />
+        <input
+          type="email"
+          name=""
+          placeholder="email"
+          id="email"
+          className="border p-2 rounded-lg"
+          value={formdata.email}
+          onChange={handleChange}
+        />
+        <input
+          type="password"
+          name=""
+          placeholder="password"
+          id="password"
+          className="border p-2 rounded-lg"
+          value={formdata.password}
+          onChange={handleChange}
+        />
+        <button
+          disabled={loading}
+          className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-90 disabled:opacity-80"
+        >
+          {loading ? "Loading..." : "Sign Up"}
+        </button>
+      </form>
+      <div className="flex gap-2 mt-5">
+        <p>Have an account?</p>
+        <Link to="/signin">
+          <span className="text-blue-700">Sign in</span>
+        </Link>
+      </div>
     </div>
   );
 }
