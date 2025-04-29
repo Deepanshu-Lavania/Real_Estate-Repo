@@ -43,7 +43,9 @@ export default function SignIn() {
         dispatch(signInFailure(data.message));
         return;
       }
-      dispatch(signInSuccess(data));
+      console.log("signInSuccess data is : ",data.rest);
+      
+      dispatch(signInSuccess(data.rest));
       alert("User signed in successfully");
       navigate("/");
     } catch (err) {

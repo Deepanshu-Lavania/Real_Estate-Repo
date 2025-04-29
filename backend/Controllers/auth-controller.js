@@ -2,6 +2,8 @@ import { User } from "../models/user-model.js";
 import bcrypt from "bcryptjs";
 import { ManualErrorHandler } from "../utils/CustomErrorHandler.js";
 import jwt from "jsonwebtoken";
+
+
 const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
   const salt = bcrypt.genSaltSync(10);
@@ -21,9 +23,12 @@ const signup = async (req, res, next) => {
 };
 
 const signin = async (req, res, next) => {
-  const { email, password } = req.body;
   try {
+    console.log(req.body);
+    const { email, password } = req.body;
     const validUser = await User.findOne({ email });
+    console.log("validUser in singin for backend is : ",validUser);
+    
     if (!validUser) return next(ManualErrorHandler(404, "User not found! "));
     const validPassword = await bcrypt.compare(password, validUser.password);
     if (!validPassword)
